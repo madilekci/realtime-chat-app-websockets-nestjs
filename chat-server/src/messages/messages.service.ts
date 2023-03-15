@@ -10,6 +10,19 @@ export class MessagesService {
     { name: 'Lebron James', text: 'Thanks bro.' },
   ];
 
+  clientToUser = {}
+
+  identify(name: string, clientId: string) {
+    this.clientToUser[clientId] = name;
+
+    // we can use this return value to get which users are online
+    return Object.values(this.clientToUser);
+  }
+
+  getClientName(clientId: string) {
+    return this.clientToUser[clientId];
+  }
+
   create(createMessageDto: CreateMessageDto) {
     const message = {...createMessageDto};
     this.messages.push(message);
