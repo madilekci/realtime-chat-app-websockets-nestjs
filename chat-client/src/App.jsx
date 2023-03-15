@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { io } from 'socket.io-client'
+
+// styles
 import './App.css'
 
 io('http://localhost:3001');
