@@ -21,18 +21,14 @@ export class MessagesGateway {
     return this.messagesService.findAll();
   }
 
-  @SubscribeMessage('findOneMessage')
-  findOne(@MessageBody() id: number) {
-    return this.messagesService.findOne(id);
+  @SubscribeMessage('join')
+  joinRoom() {
+    // TODO
   }
 
-  @SubscribeMessage('updateMessage')
-  update(@MessageBody() updateMessageDto: UpdateMessageDto) {
-    return this.messagesService.update(updateMessageDto.id, updateMessageDto);
+  @SubscribeMessage('typing')
+  async typing() {
+    // TODO
   }
 
-  @SubscribeMessage('removeMessage')
-  remove(@MessageBody() id: number) {
-    return this.messagesService.remove(id);
-  }
 }
