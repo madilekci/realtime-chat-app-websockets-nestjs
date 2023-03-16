@@ -2,20 +2,19 @@ import React, { useState, useEffect } from 'react';
 
 const Messages = ({ socket }) => {
 	const [messages, setMessages] = useState([]);
-	const getAllMessages = () =>
+
+    const getAllMessages = () =>
 		socket.emit('findAllMessages', {}, (response) => {
 			setMessages(response);
 		});
 
 	useEffect(() => {
 		getAllMessages();
-	}, [socket]);
-
-	useEffect(() => {
-		socket.on('newMessage', (newMessage) => {
-			getAllMessages();
-		});
 	}, []);
+
+	socket.on('newMessage', (newMessage) => {
+        getAllMessages();
+    });
 
 	return (
 		<div className='messagesContainer'>

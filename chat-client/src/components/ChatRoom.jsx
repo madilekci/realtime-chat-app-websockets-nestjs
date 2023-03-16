@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
 import Messages from './Messages';
+import TypingDisplay from './TypingDisplay';
 
 const ChatRoom = ({ socket }) => {
   const [messageText, setMessageText] = useState('');
-  const [typingDisplay, setTypingDisplay] = useState('')
 
-
-
-  useEffect(() => {
-    socket.on('typing', ({who, isTyping}) => {
-      isTyping ? setTypingDisplay(`${who} is typing ...`) : setTypingDisplay('');
-    })
-  }, [socket]);
 
   const handleMessageInputChange = e => {
     setMessageText(e.target.value);
@@ -39,10 +32,7 @@ const ChatRoom = ({ socket }) => {
 
             <Messages socket={socket} />
 
-            {
-              typingDisplay !== '' &&
-              <div className="typingDisplay">{ typingDisplay }</div>
-            }
+            <TypingDisplay socket={socket}/>
 
             <div className="messageInput">
               <form onSubmit={sendMessage}>
