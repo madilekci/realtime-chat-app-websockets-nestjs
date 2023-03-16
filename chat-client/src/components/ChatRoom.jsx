@@ -1,24 +1,12 @@
 import React, { useState, useEffect } from 'react'
 
-const ChatRoom = ({ socket }) => {
+import Messages from './Messages';
 
-  const [messages, setMessages] = useState([]);
+const ChatRoom = ({ socket }) => {
   const [messageText, setMessageText] = useState('');
   const [typingDisplay, setTypingDisplay] = useState('')
 
-  const getAllMessages = () => socket.emit('findAllMessages', {}, (response) => {
-    setMessages(response);
-  });
 
-  useEffect(() => {
-    getAllMessages();
-  }, [socket]);
-
-  useEffect(() => {
-    socket.on('newMessage', (newMessage) => {
-      getAllMessages();
-    });
-  }, []);
 
   useEffect(() => {
     socket.on('typing', ({who, isTyping}) => {
@@ -48,15 +36,8 @@ const ChatRoom = ({ socket }) => {
 
   return (
     <div className="chatContainer">
-            <div className="messagesContainer">
-              {
-                messages.map( (message, index ) => {
-                  return (<div key={index}>
-                    [ { message.name } ] : { message.text }
-                  </div>)
-                })
-              }
-            </div>
+
+            <Messages socket={socket} />
 
             {
               typingDisplay !== '' &&
