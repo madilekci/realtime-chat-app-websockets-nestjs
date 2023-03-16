@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { io } from 'socket.io-client'
 
 // styles
 import './App.css'
+import JoinChatRoom from './components/JoinChatRoom';
 
 const socket = io('http://localhost:3001');
 
@@ -11,7 +12,6 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState('');
   const [isJoined, setIsJoined] = useState(false);
-  const [name, setName] = useState('');
   const [typingDisplay, setTypingDisplay] = useState('')
 
   const getAllMessages = () => socket.emit('findAllMessages', {}, (response) => {
@@ -30,8 +30,8 @@ function App() {
 
 
   useEffect(() => {
-    socket.on('typing', ({name, isTyping}) => {
-      isTyping ? setTypingDisplay(`${name} is typing ...`) : setTypingDisplay('');
+    socket.on('typing', ({who, isTyping}) => {
+      isTyping ? setTypingDisplay(`${who} is typing ...`) : setTypingDisplay('');
     })
   }, [socket])
 
@@ -40,13 +40,6 @@ function App() {
     e.preventDefault();
     await socket.emit('createMessage' , { text: messageText }, () => {
       setMessageText('');
-    });
-  }
-
-  const join = (e) => {
-    e.preventDefault();
-    socket.emit('join', { name: name }, response => {
-      setIsJoined(true);
     });
   }
 
@@ -67,13 +60,7 @@ function App() {
     <div className="App">
         {
           !isJoined ?
-          <div>
-            <form onSubmit={join}>
-              <label htmlFor="">What's your name ?</label>
-              <input type="text" value={name} onChange={ e => setName(e.target.value)}/>
-              <button type='submit'>Send</button>
-            </form>
-          </div>
+          <JoinChatRoom socket={socket} setIsJoined={setIsJoined}  />
           :
           <div className="chatContainer">
             <div className="messagesContainer">
