@@ -23,10 +23,12 @@ export class MessagesService {
     return this.clientToUser[clientId];
   }
 
-  create(createMessageDto: CreateMessageDto) {
-    const message = {...createMessageDto};
+  create(createMessageDto: CreateMessageDto, clientId: string ) {
+    const message = {
+      name: this.clientToUser[clientId],
+      text: createMessageDto.text
+    };
     this.messages.push(message);
-
     return message;
   }
 
