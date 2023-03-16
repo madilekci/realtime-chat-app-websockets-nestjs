@@ -1,20 +1,4 @@
 .App {
-    width: 100vw;
     display: flex;
     justify-content: center;
-    align-items: center;
-}
-
-
-.chatContainer {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-
-    border: 1px solid salmon;
-    padding: 20px;
-}
-
-.messagesContainer {
-    flex: 1
 }

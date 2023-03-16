@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 
+import { Input, Button, Space } from 'antd';
+import { SendOutlined } from '@ant-design/icons';
+
+
+const { TextArea } = Input;
+
 const MessageInput = ({ socket }) => {
     const [messageText, setMessageText] = useState('');
 
@@ -8,7 +14,7 @@ const MessageInput = ({ socket }) => {
 		socket.emit('typing', { isTyping: true });
 		timeout = setTimeout(() => {
 			socket.emit('typing', { isTyping: false });
-		}, 500);
+		}, 3000);
 	};
 
 	const handleMessageInputChange = (e) => {
@@ -26,17 +32,25 @@ const MessageInput = ({ socket }) => {
 
 	return (
 		<div className='messageInput'>
-			<form onSubmit={sendMessage}>
-				<label htmlFor='messageInput'>Message :</label>
-				<input
-					id='messageInput'
-					type='text'
-					value={messageText}
-					onChange={handleMessageInputChange}
-					style={{ margin: '0px 10px' }}
-				/>
-				<button type='submit'>Send</button>
-			</form>
+			<TextArea
+				maxLength={255}
+				style={{
+					height: 120,
+					resize: 'none',
+				}}
+				value={messageText}
+				onChange={handleMessageInputChange}
+				placeholder="Your message :"
+			/>
+			<div style={{display: 'flex', flexDirection: 'row-reverse', marginTop: '16px' }}>
+				<Button
+					type="primary"
+					icon={<SendOutlined />}
+					onClick={sendMessage}
+					>
+					Send
+				</Button>
+			</div>
 		</div>
 	);
 };
